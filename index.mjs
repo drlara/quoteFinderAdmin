@@ -24,6 +24,26 @@ app.get('/', (req, res) => {
    res.render('home.ejs')
 });
 
+
+//Displays form to add a new quote
+app.get('/addQuote', (req, res) => {
+   //get list of authors and pass it
+   //get list of categories and pass it
+   res.render('addQuote.ejs', {authors, categories})
+});
+
+
+app.post('/addQuote', (req, res) => {
+
+   let quote = req.body.quote;
+
+   //add quote to the database
+
+   //get list of authors and pass it
+   //get list of categories and pass it
+   res.render('addQuote.ejs', {authors, categories})
+});
+
 //Displays form to add a new author
 app.get('/addAuthor', (req, res) => {
    res.render('addAuthor.ejs')

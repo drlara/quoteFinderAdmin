@@ -24,6 +24,24 @@ app.get('/', (req, res) => {
    res.render('home.ejs')
 });
 
+//displays form to update a specific author
+app.get('/updateAuthor', async(req, res) => {
+   let authorId = req.query.id;
+   let sql = `SELECT *
+              FROM authors
+              WHERE authorId = ?`;
+   const [authorInfo] = await pool.query(sql, [authorId]);          
+   res.render('updateAuthor.ejs', {authorInfo});
+});
+
+app.get('/authors', async(req, res) => {
+   let sql = `SELECT authorId, firstName, lastName
+              FROM authors
+              ORDER BY lastName`;
+    const [authors] = await pool.query(sql);           
+    res.render('authors.ejs', {authors})
+});
+
 
 //Displays form to add a new quote
 app.get('/addQuote', (req, res) => {

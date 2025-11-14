@@ -37,8 +37,13 @@ app.get('/updateQuote', async(req, res) => {
     let sql = `SELECT *
                FROM quotes
                WHERE quoteId = ?`;
-    const [quoteInfo] = await pool.query(sql, [quoteId]);         
-    res.render('updateQuote.ejs', {quoteInfo})
+    const [quoteInfo] = await pool.query(sql, [quoteId]);
+    
+    let sqlAuthors = `SELECT authorId, firstName, lastName
+                      FROM authors`;
+    const [authors] = await pool.query(sqlAuthors);   
+                  
+    res.render('updateQuote.ejs', {quoteInfo, authors})
 });
 
 //displays form to update a specific author

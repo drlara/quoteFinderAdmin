@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Quote</title>
+</head>
+<body>
+
+    <h1> Update Quote </h1>
+
+    <form action="/updateQuote" method="POST">
+
+        Quote:
+        <textarea name="quote"><%=quoteInfo[0].quote%>
+        </textarea> <br>
+
+        Author: <%=quoteInfo[0].authorId%>
+        <select name="authorId">
+            <option value="1"> Albert Einstein</option>
+            <% for (let i of authors) { %>
+            
+                <option value="<%=i.authorId%>"
+
+                    <% if (i.authorId == quoteInfo[0].authorId ) { %>
+
+                     selected
+
+                    <% } %>
+
+
+                    >
+                    <%=i.firstName%> <%=i.lastName%>
+                </option>
+
+            <% } %>
+        </select>
+
+        <br>
+        Category:  <%=quoteInfo[0].category%>
+        <select name="category">
+            <option> Motivational </option>
+        </select>
+
+        <button>Add Quote</button>
+
+    </form>
+    
+</body>
+</html>

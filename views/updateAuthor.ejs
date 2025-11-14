@@ -9,15 +9,35 @@
 
     <h1> Updating Author </h1>
 
-    <%=authorInfo[0].firstName %><br>
-    <%=authorInfo[0].lastName %><br>
+    <br>
     <%=authorInfo[0].dob %>
 
     <form action="/updateAuthor" method="POST">
-        First Name: <input type="text" name="fn"> <br>
-        Last Name: <input type="text" name="ln">  <br>
-        <!-- Date of Birth <input type="date" name="dob"> <br>
-        Biography: <textarea name="bio"></textarea> <br> -->
+        <input type="hidden" name="authorId" value="<%=authorInfo[0].authorId %>">
+        First Name: <input type="text" name="fn" value="<%=authorInfo[0].firstName %>"> <br>
+        Last Name: <input type="text" name="ln" value="<%=authorInfo[0].lastName %>">  <br>
+        Date of Birth <input type="date" name="dob" value="<%=authorInfo[0].ISOdob %>"> <br>
+        Sex:
+        <label><input type="radio" name="sex" 
+            <% if (authorInfo[0].sex=="F") { %>
+            checked 
+            <% } %>
+            value="F"> Female</label>
+        <label><input type="radio" name="sex" 
+                <%=(authorInfo[0].sex=='M')?"checked":""%>
+                value="M"> Male</label>
+        <br>
+
+        Sex: <select>
+               <option 
+               <%=(authorInfo[0].sex=='M')?"selected":""%>
+               value="M">Male</option>
+                <option
+                <%=(authorInfo[0].sex=='F')?"selected":""%>
+                value="F">Female</option>
+             </select>
+
+        Biography: <textarea rows="5" cols="20" name="bio"><%=authorInfo[0].biography%></textarea> <br> 
         <button> Update Author </button>
     </form>
     

@@ -24,15 +24,50 @@ app.get('/', (req, res) => {
    res.render('home.ejs')
 });
 
+app.get('/quotes', async(req, res) => {
+   let sql = `SELECT quoteId, quote
+              FROM quotes`;
+   const [quotes] = await pool.query(sql);                     
+   res.render('quotes.ejs', {quotes})
+});
+
+//displays form to update the quote selected
+app.get('/updateQuote', async(req, res) => {
+    let quoteId = req.query.quoteId;
+    let sql = `SELECT *
+               FROM quotes
+               WHERE quoteId = ?`;
+    const [quoteInfo] = await pool.query(sql, [quoteId]);         
+    res.render('updateQuote.ejs', {quoteInfo})
+});
+
 //displays form to update a specific author
 app.get('/updateAuthor', async(req, res) => {
    let authorId = req.query.id;
-   let sql = `SELECT *
+   let sql = `SELECT *,
+              DATE_FORMAT(dob,'%Y-%m-%d') ISOdob,
+              DATE_FORMAT(dod,'%Y-%m-%d') ISOdod
               FROM authors
               WHERE authorId = ?`;
    const [authorInfo] = await pool.query(sql, [authorId]);          
    res.render('updateAuthor.ejs', {authorInfo});
 });
+
+app.post('/updateAuthor', async(req, res) => {
+    let authorId = req.body.authorId;
+    let fName = req.body.fn;
+    let lName = req.body.ln;
+    let sql = `UPDATE authors
+               SET firstName = ?,
+                   lastName = ?
+               WHERE authorId = ?`
+    let sqlParams = [fName, lName, authorId];
+    const [row] = await pool.query(sql, sqlParams);  
+    res.redirect('/authors'); //displays the list of authors
+});
+
+
+
 
 app.get('/authors', async(req, res) => {
    let sql = `SELECT authorId, firstName, lastName
